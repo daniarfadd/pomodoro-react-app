@@ -1,66 +1,45 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
+
 function App() {
-
-  const [timer, setTimer] = useState({
-    hour: 0,
-    minute: 0,
-    second: 0,
-    millisecond: 0
-  })
-
-  // useEffect(() =>{
-  //   setTimer(prevCon => (
-  //     {
-  //       ...prevCon,
-  //       millisecond: 10,
-  //       hour: 15
-  //     }
-  //   ))
-
-  // },[])
-
-  let hour = timer.hour
-  let minute = timer.minute
-  let second = timer.second
-  let millisecond = timer.millisecond
-
-  if(minute < 10 && minute !== 0){
-    minute = `0${minute}`
-  }
+  
+  const [minute, setMinute] = useState(0)
+  const [second, setSecond] = useState(0)
+  const [millisecond, setMilliSecond] = useState(0)
 
 
-  function tenMinutes() {
-    setTimer(prevTime => (
-      {
-        ...prevTime,
-        minute: 10
-      }
-    ))
-  }
+  let minuteTime = minute < 10 ? `0${minute}` : minute
+  let secondTime = second < 10 ? `0${second}` : second
+  let milliTime = millisecond < 10 ? `00${millisecond}` : millisecond < 100 ?   `0${millisecond}` : millisecond
 
   
+  useEffect(() =>{
+
+  },[])
   
+
+  function tenMinutes(){
+    setSecond(0)
+    setMilliSecond(9)
+    setMinute(7)
+  }
 
   return (
     <div className="App">
 
       <div>
-        <h2>hour {timer.hour}</h2>
-        <h2>minute {timer.minute}</h2>
-        <h2>second {timer.second}</h2>
-        <h2>millisecond {timer.millisecond}</h2>
+        <h2>minute {minuteTime}</h2>
+        <h2>second {secondTime}</h2>
+        <h2>millisecond {milliTime}</h2>
       </div>
 
       <div className="timer">
-        <span id="hour"> 00 </span>
-        : 
-        <span id="minute"> { minute === 0 ? "00" : minute} </span>
+        <span id="minute"> {minuteTime} </span>
         :
-        <span id="second"> 00 </span>
+        <span id="second"> {secondTime} </span>
         :
-        <span id="millisecond"> 000 </span>
+        <span id="millisecond"> { milliTime === 0 ? "000" : milliTime} </span>
       </div>
 
       <div className="timer--button">
