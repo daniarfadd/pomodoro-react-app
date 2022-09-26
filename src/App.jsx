@@ -12,6 +12,10 @@ function App() {
 
   const [timer, setTimer] = useState(0)
 
+  const styles = {
+    backgroundColor: breakMessage ? "#8fad4f" : "#c86354"
+  }
+
 
   let minuteTime = minute < 10 ? `0${minute}` : minute
   let secondTime = second < 10 ? `0${second}` : second
@@ -21,17 +25,20 @@ function App() {
 
 
   function timerHandler(time) {
-    setStart(prevStart => !prevStart)
-    setSecond(time)
+    if(breakMessage) {
+      setBreakMessage(prevCon => !prevCon)
+    }
     setTimer(time)
+
+    setStart(prevStart => !prevStart)
+
+    setSecond(0)
     setMilliSecond(9)
-    // setMinute(time)
+    setMinute(time)
   }
 
-  
-  
   useEffect(() => {
-    
+
     if (start) {
       cron = setInterval(() => {
         clearInterval(cron)
@@ -46,9 +53,11 @@ function App() {
               // ini kalau 0 semuah
 
               let minute = breakMessage ? timer : 5
-              // setMinute(minute)
-              setSecond(minute)
-              setMilliSecond(999)
+      
+              let audio = breakMessage ? "audio-start" : "audio-end"
+              document.getElementById(audio).play()
+              setMinute(minute)
+              setMilliSecond(9)
               setBreakMessage(prevCon => !prevCon)
 
             }
@@ -68,18 +77,26 @@ function App() {
 
   }, [millisecond])
 
+  
 
   return (
     <div className="App">
 
-      <div>
-        <h2>minute {minuteTime}</h2>
-        <h2>second {secondTime}</h2>
-        <h2>millisecond {milliTime}</h2>
-        {breakMessage && <h1>Istirahat Boss!!</h1>}
+      {/* this audio for background sound */}
+      <audio id='audio-end' src= "../assets/sound/notif.mp3" controls style={{display: "none"}}></audio>
+      <audio id='audio-start' src="../assets/sound/notif_start.mp3" controls style={{display: "none"}}></audio>
+
+      <div className='title'>
+        <h1>Pomodoro</h1>
+        Created by <a href="https://daffa-link-bio.vercel.app" target="_blank">Daffa Daniarfa</a>
       </div>
 
-      <div className="timer">
+
+      <div className='break--message'>
+        {breakMessage && <h1>time for a break !</h1>}
+      </div>
+
+      <div className="timer" style={styles}>
         <span id="minute"> {minuteTime} </span>
         :
         <span id="second"> {secondTime} </span>
@@ -88,6 +105,7 @@ function App() {
       </div>
 
       <div className="timer--button">
+        <button onClick={() => timerHandler(5)}>5 Minute</button>
         <button onClick={() => timerHandler(10)}>10 Minute</button>
         <button onClick={() => timerHandler(15)}>15 Minute</button>
         <button onClick={() => timerHandler(20)}>20 Minute</button>
