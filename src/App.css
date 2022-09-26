@@ -16,3 +16,19 @@
   font-size: 50px;
   margin: 2.5rem 0;
 }
+
+.timer--button {
+  margin-top: 5rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+button {
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+button:hover {
+  background-color: thistle;
+}
